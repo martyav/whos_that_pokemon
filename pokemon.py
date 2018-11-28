@@ -75,10 +75,10 @@ class Pokemon:
             else:
                 if i == 0:
                     return_text += 'It is strong against ' + self.strengths[i].capitalize() + ', '
-                elif i < len(self.strengths):
-                    return_text += self.strengths[i].capitalize() + ', '
-                else:
+                elif i == len(self.strengths) - 1:
                     return_text += 'and ' + self.strengths[i].capitalize() + '. '
+                else:
+                    return_text += self.strengths[i].capitalize() + ', '
         
         if len(self.weaknesses) < 1:
             return_text += 'It is not weak against anything.'
@@ -89,9 +89,9 @@ class Pokemon:
             else:
                 if i == 0:
                     return_text += 'It is weak against ' + self.weaknesses[i].capitalize() + ', '
-                elif i < len(self.weaknesses):
-                    return_text += 'and ' + self.weaknesses[i].capitalize() + ', '
-                else:
+                elif i == len(self.weaknesses) - 1:
                     return_text += 'and ' + self.weaknesses[i].capitalize() + '. '
+                else:
+                    return_text += 'and ' + self.weaknesses[i].capitalize() + ', '
 
         return return_text
