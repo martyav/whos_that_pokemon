@@ -1,4 +1,3 @@
-from type_matcher import Type_Matcher
 import json
 
 class Pokemon:
