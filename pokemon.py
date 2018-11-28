@@ -72,7 +72,7 @@ class Pokemon:
         return_text = ''
 
         if len(list_of_types) < 1:
-            return_text += f'It is not { strong_or_weak } against anything.'
+            return_text += f'It is not { strong_or_weak } against anything. '
         else:
             for i in range(0, len(list_of_types)):
                 if len(list_of_types) < 2:

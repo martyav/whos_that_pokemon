@@ -18,7 +18,11 @@ class Type_Matcher:
             'ice': ['fighting', 'fire', 'rock', 'steel'],
             'dark': ['bug', 'fighting', 'fairy'],
             'bug': ['fire', 'flying', 'rock'],
-            'flying': ['rock', 'electric', 'ice']
+            'flying': ['rock', 'electric', 'ice'],
+            'dragon': ['fairy', 'dragon', 'ice'],
+            'psychic': ['bug', 'dark', 'ghost'],
+            'ghost': ['dark', 'ghost'],
+            'poison': ['ground', 'psychic']
         }.get(self.pokemon_type, [])
 
     def list_strength(self):
@@ -35,5 +39,9 @@ class Type_Matcher:
             'ice': ['dragon', 'flying', 'grass', 'ground'],
             'dark': ['psychic', 'ghost'],
             'bug': ['dark', 'grass', 'psychic'],
-            'flying': ['bug', 'fighting', 'grass']
+            'flying': ['bug', 'fighting', 'grass'],
+            'dragon': ['dragon'],
+            'psychic': ['fighting', 'poison'],
+            'ghost': ['ghost', 'psychic'],
+            'poison': ['grass']
         }.get(self.pokemon_type, [])
