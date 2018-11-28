@@ -6,18 +6,34 @@ class Type_Matcher:
 
     def list_weakness(self):
         return {
-            'fire': ['water', 'ground'],
+            'fire': ['water', 'ground', 'rock'],
             'water': ['grass', 'electric'],
-            'grass': ['fire'],
+            'grass': ['fire', 'bug', 'flying', 'poison', 'ice'],
             'ground': ['water', 'grass'],
-            'electric': ['ground']
+            'electric': ['ground'],
+            'normal': ['fighting'],
+            'fighting': ['psychic', 'flying'],
+            'rock': ['fighting', 'grass', 'ground', 'steel', 'water'],
+            'steel': ['fire', 'fighting', 'ground'],
+            'ice': ['fighting', 'fire', 'rock', 'steel'],
+            'dark': ['bug', 'fighting', 'fairy'],
+            'bug': ['fire', 'flying', 'rock'],
+            'flying': ['rock', 'electric', 'ice']
         }.get(self.pokemon_type, [])
 
     def list_strength(self):
         return {
-            'fire': ['grass'],
-            'water': ['ground'],
-            'grass': ['water', 'ground'],
+            'fire': ['grass', 'ice', 'steel', 'bug'],
+            'water': ['ground', 'fire', 'rock'],
+            'grass': ['water', 'ground', 'rock'],
             'ground': ['fire', 'electric'],
-            'electric': ['water']
+            'electric': ['water', 'flying'],
+            'normal': [],
+            'fighting': ['normal', 'rock', 'steel', 'ice', 'dark'],
+            'rock': ['bug', 'fire', 'ice', 'flying'],
+            'steel': ['ice', 'rock'],
+            'ice': ['dragon', 'flying', 'grass', 'ground'],
+            'dark': ['psychic', 'ghost'],
+            'bug': ['dark', 'grass', 'psychic'],
+            'flying': ['bug', 'fighting', 'grass']
         }.get(self.pokemon_type, [])
