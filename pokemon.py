@@ -80,7 +80,7 @@ class Pokemon:
                 else:
                     if i == 0:
                         return_text += f'It is { strong_or_weak } against { list_of_types[i].capitalize() }, '
-                    elif i == len(self.strengths) - 1:
+                    elif i == len(list_of_types) - 1:
                         return_text += f'and { list_of_types[i].capitalize() }. '
                     else:
                         return_text += f'{ list_of_types[i].capitalize() }, '
