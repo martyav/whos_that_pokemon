@@ -14,9 +14,6 @@ PARSER = argparse.ArgumentParser()
 PARSER.add_argument('name', help='The name of the Pokemon you want information on.')
 ARGS = PARSER.parse_args()
 
-# TO-DO:
-# Stretch goal: Return weaknesses and strengths based on type. This is less hard than tedious.
-
 getter = Getter(ARGS)
 pokemon = Pokemon(getter.quick_look_up)
 
