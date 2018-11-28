@@ -6,7 +6,8 @@ whos_that_pokemon.py
 A script that makes requests against the Pokemon API.
 """
 
-from pokemon_getter import Pokemon_Getter
+from getter import Getter
+from pokemon import Pokemon
 import argparse
 
 PARSER = argparse.ArgumentParser()
@@ -16,11 +17,12 @@ ARGS = PARSER.parse_args()
 # TO-DO:
 # Stretch goal: Return weaknesses and strengths based on type. This is less hard than tedious.
 
-pg = Pokemon_Getter(ARGS)
+getter = Getter(ARGS)
+pokemon = Pokemon(getter.quick_look_up)
 
 print('\n')
-print(pg.formatted_vitals)
+print(pokemon.name_and_measurements)
 print('\n')
-print(pg.type_description)
+print(pokemon.type_description)
 print('\n')
-print(pg.game_appearances)
+print(pokemon.game_appearances)

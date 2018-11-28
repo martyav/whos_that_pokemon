@@ -1,27 +1,27 @@
 from string import Template
-import pokebase as pb
 import json
 
-class Pokemon_Getter:
-    """
-    An object that makes a hit to the Pokemon API & holds the results.
+class Pokemon:
+    """An object that parses & formats the results from a Pokemon API hit."""
 
-    It contains several methods for formatting the information from the results.
-    """
-    def __init__(self, command_line_args):
-        self.command_line_args = command_line_args
-        self.quick_look_up = pb.pokemon(command_line_args.name)
-        self.name_and_vitals = Template('$name, a very special Pokemon. It is $height meters tall, and weighs $weight kilos.')
-
-        self.name = str(self.quick_look_up.species).capitalize()
-        self.height = '{0:.2f}'.format(self.quick_look_up.height/10)
-        self.weight = '{0:.2f}'.format(self.quick_look_up.weight/10)
-        self.types = json.loads(str(self.quick_look_up.types).replace('\'', '"'))
-        self.games = json.loads(str(self.quick_look_up.game_indices).replace('\'', '"'))
+    def __init__(self, api_response):
+        self.name = str(api_response.species).capitalize()
+        self.height = '{0:.2f}'.format(api_response.height/10)
+        self.weight = '{0:.2f}'.format(api_response.weight/10)
+        self.types = json.loads(str(api_response.types).replace('\'', '"'))
+        self.games = json.loads(str(api_response.game_indices).replace('\'', '"'))
   
-        self.formatted_vitals = self.name_and_vitals.substitute(name=self.name, height=self.height, weight=self.weight)
+        self.name_and_measurements = self.format_name_and_measurements_string()
         self.type_description = self.format_types_string()
         self.game_appearances = self.format_games_string()
+
+    def format_name_and_measurements_string(self):
+        """Returns a string detailing, in plain English, the Pokemon's name, height, and weight"""
+
+        name_and_vitals = Template('$name, a very special Pokemon. It is $height meters tall, and weighs $weight kilos.')
+        return_text = name_and_vitals.substitute(name=self.name, height=self.height, weight=self.weight)
+
+        return return_text
 
     def format_types_string(self):
         """Returns a string detailing, in plain English, the Pokemon's types"""
