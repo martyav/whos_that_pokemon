@@ -1,4 +1,3 @@
-from string import Template
 from type_matcher import Type_Matcher
 import json
 
@@ -11,14 +10,62 @@ class Pokemon:
         self.weight = '{0:.2f}'.format(api_response.weight/10)
         self.types = json.loads(str(api_response.types).replace('\'', '"'))
         self.games = json.loads(str(api_response.game_indices).replace('\'', '"'))
-        self.matcher = Type_Matcher(self.types[0]['type']['name'])
-        self.strengths = self.matcher.list_strength()
-        self.weaknesses = self.matcher.list_weakness()
+        self.strengths = self.list_strength(self.types[0]['type']['name'])
+
+        if len(self.types) > 1:
+            self.strengths.extend(self.list_strength(self.types[1]['type']['name']))
+
+        self.weaknesses = self.list_weakness(self.types[0]['type']['name'])
+
+        if len(self.types) > 1:
+            self.strengths.extend(self.list_weakness(self.types[1]['type']['name']))
   
         self.name_and_measurements = self.format_name_and_measurements_string()
         self.type_description = self.format_types_string()
         self.game_appearances = self.format_games_string()
         self.strengths_and_weaknesses = self.format_type_matches_string()
+
+    def list_weakness(self, pokemon_type):
+        return {
+            'fire': ['water', 'ground', 'rock'],
+            'water': ['grass', 'electric'],
+            'grass': ['fire', 'bug', 'flying', 'poison', 'ice'],
+            'ground': ['water', 'grass'],
+            'electric': ['ground'],
+            'normal': ['fighting'],
+            'fighting': ['psychic', 'flying'],
+            'rock': ['fighting', 'grass', 'ground', 'steel', 'water'],
+            'steel': ['fire', 'fighting', 'ground'],
+            'ice': ['fighting', 'fire', 'rock', 'steel'],
+            'dark': ['bug', 'fighting', 'fairy'],
+            'bug': ['fire', 'flying', 'rock'],
+            'flying': ['rock', 'electric', 'ice'],
+            'dragon': ['fairy', 'dragon', 'ice'],
+            'psychic': ['bug', 'dark', 'ghost'],
+            'ghost': ['dark', 'ghost'],
+            'poison': ['ground', 'psychic']
+        }.get(pokemon_type, [])
+
+    def list_strength(self, pokemon_type):
+        return {
+            'fire': ['grass', 'ice', 'steel', 'bug'],
+            'water': ['ground', 'fire', 'rock'],
+            'grass': ['water', 'ground', 'rock'],
+            'ground': ['fire', 'electric'],
+            'electric': ['water', 'flying'],
+            'normal': [],
+            'fighting': ['normal', 'rock', 'steel', 'ice', 'dark'],
+            'rock': ['bug', 'fire', 'ice', 'flying'],
+            'steel': ['ice', 'rock'],
+            'ice': ['dragon', 'flying', 'grass', 'ground'],
+            'dark': ['psychic', 'ghost'],
+            'bug': ['dark', 'grass', 'psychic'],
+            'flying': ['bug', 'fighting', 'grass'],
+            'dragon': ['dragon'],
+            'psychic': ['fighting', 'poison'],
+            'ghost': ['ghost', 'psychic'],
+            'poison': ['grass']
+        }.get(pokemon_type, [])
 
     def format_name_and_measurements_string(self):
         """Returns a string detailing, in plain English, the Pokemon's name, height, and weight"""
