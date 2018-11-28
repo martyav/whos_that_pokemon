@@ -11,7 +11,7 @@ class Type_Matcher:
             'grass': ['fire'],
             'ground': ['water', 'grass'],
             'electric': ['ground']
-        }[self.pokemon_type]
+        }.get(self.pokemon_type, [])
 
     def list_strength(self):
         return {
@@ -20,4 +20,4 @@ class Type_Matcher:
             'grass': ['water', 'ground'],
             'ground': ['fire', 'electric'],
             'electric': ['water']
-        }[self.pokemon_type]
+        }.get(self.pokemon_type, [])

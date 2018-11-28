@@ -22,9 +22,9 @@ class Pokemon:
 
     def format_name_and_measurements_string(self):
         """Returns a string detailing, in plain English, the Pokemon's name, height, and weight"""
+        return_text = ''
 
-        name_and_vitals = Template('$name, a very special Pokemon. It is $height meters tall, and weighs $weight kilos.')
-        return_text = name_and_vitals.substitute(name=self.name, height=self.height, weight=self.weight)
+        return_text += f'{ self.name }, a very special Pokemon. It is { self.height } meters tall, and weighs { self.weight } kilos.'
 
         return return_text
 
@@ -33,12 +33,13 @@ class Pokemon:
 
         return_text = ''
 
+        type1 = self.types[0]['type']['name'].capitalize()
+
         if len(self.types) == 1:
-            temp_text = Template('It is a pure $type type.')
-            return_text = temp_text.substitute(type=self.types[0]['type']['name'].capitalize())
+            return_text += f'It is a pure { type1 } type.'
         else:
-            temp_text = Template('It is a $type1 type, and also a $type2 type.')
-            return_text = temp_text.substitute(type1=self.types[0]['type']['name'].capitalize(), type2=self.types[1]['type']['name'].capitalize())
+            type2 = self.types[1]['type']['name'].capitalize()
+            return_text += f'It is a { type1 } type, and also a { type2 } type.'
     
         return return_text
 
@@ -53,45 +54,48 @@ class Pokemon:
             return_text = 'You can find it in the following games: '
         
             for i in range(0, len(self.games)):
+                game = self.games[i]['version']['name'].capitalize()
+
                 if len(self.games) < 2:
-                    return_text +=  self.games[i]['version']['name'].capitalize() + '.'
+                    return_text +=  f'{ game }.'
                 else:
                     if i == 0:
                         return_text += '\n'
 
-                    return_text += '* ' + self.games[i]['version']['name'].capitalize() + '\n'
+                    return_text += f'* { game }\n'
 
         return return_text
 
-    def format_type_matches_string(self):
+    def format_type_match(self, strong_or_weak, list_of_types):
+        """Formats sentences within the type match-up string"""
+
         return_text = ''
 
-        if len(self.strengths) < 1:
-            return_text += 'It is not strong against anything.'
-
-        for i in range(0, len(self.strengths)):
-            if len(self.strengths) < 2:
-                return_text += 'It is strong against ' + self.strengths[i].capitalize() + '. '
-            else:
-                if i == 0:
-                    return_text += 'It is strong against ' + self.strengths[i].capitalize() + ', '
-                elif i == len(self.strengths) - 1:
-                    return_text += 'and ' + self.strengths[i].capitalize() + '. '
+        if len(list_of_types) < 1:
+            return_text += f'It is not { strong_or_weak } against anything.'
+        else:
+            for i in range(0, len(list_of_types)):
+                if len(list_of_types) < 2:
+                    return_text += f'It is { strong_or_weak } against { list_of_types[i].capitalize() }. '
                 else:
-                    return_text += self.strengths[i].capitalize() + ', '
+                    if i == 0:
+                        return_text += f'It is { strong_or_weak } against { list_of_types[i].capitalize() }, '
+                    elif i == len(self.strengths) - 1:
+                        return_text += f'and { list_of_types[i].capitalize() }. '
+                    else:
+                        return_text += f'{ list_of_types[i].capitalize() }, '
         
-        if len(self.weaknesses) < 1:
-            return_text += 'It is not weak against anything.'
+        return return_text
 
-        for i in range(0, len(self.weaknesses)):
-            if len(self.weaknesses) < 2:
-                return_text += 'It is weak against ' + self.weaknesses[i].capitalize() + '.'
-            else:
-                if i == 0:
-                    return_text += 'It is weak against ' + self.weaknesses[i].capitalize() + ', '
-                elif i == len(self.weaknesses) - 1:
-                    return_text += 'and ' + self.weaknesses[i].capitalize() + '. '
-                else:
-                    return_text += 'and ' + self.weaknesses[i].capitalize() + ', '
+
+    def format_type_matches_string(self):
+        """Returns a string detailing, in plain English, the types the Pokemon is strong and weak against"""
+
+        return_text = ''
+
+        strength_string = self.format_type_match('strong', self.strengths)
+        weakness_string = self.format_type_match('weak', self.weaknesses)
+
+        return_text +=  f'{ strength_string }{ weakness_string }'
 
         return return_text
